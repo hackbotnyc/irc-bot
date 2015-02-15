@@ -14,18 +14,18 @@ right_audio = None
 left_motor = None
 right_motor = None
 
-def init_ports():
-    left_motor = mraa.Gpio(LEFT_MOTOR_PORT)
-    right_motor = mraa.Gpio(RIGHT_MOTOR_PORT)
+# init all the things
+left_motor = mraa.Gpio(LEFT_MOTOR_PORT)
+right_motor = mraa.Gpio(RIGHT_MOTOR_PORT)
 
-    left_audio = mraa.Pwm(LEFT_AUDIO_PORT)
-    right_audio = mraa.Pwm(RIGHT_AUDIO_PORT)
+left_audio = mraa.Pwm(LEFT_AUDIO_PORT)
+right_audio = mraa.Pwm(RIGHT_AUDIO_PORT)
 
-    left_audio.enable(True)
-    right_audio.enable(True)
+left_audio.enable(True)
+right_audio.enable(True)
 
-    left_motor.dir(mraa.DIR_OUT)
-    right_motor.dir(mraa.DIR_OUT)
+left_motor.dir(mraa.DIR_OUT)
+right_motor.dir(mraa.DIR_OUT)
 
 left_audio_buffer = []
 right_audio_buffer = []
@@ -53,7 +53,6 @@ def set_right_motor(on):
         right_motor.write(0)
 
 def run():
-    init_ports()
     readbuffer = ""
 
     s = socket.socket()
@@ -85,5 +84,9 @@ def run():
                     s.send("JOIN #hackcooper\r\n")
                 elif args[0] == "!move":
                     set_left_motor(True)
+
+# reset both motors on startup
+set_left_motor(False)
+set_right_motor(False)
 
 run()
