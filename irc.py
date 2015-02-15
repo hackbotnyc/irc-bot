@@ -16,7 +16,7 @@ HAND_UP = .15
 HAND_DOWN = .45
 
 # time to hold the hand up in seconds
-HI5_DELAY = 3
+HI_DELAY = 3
 
 left_motor = None
 right_motor = None
@@ -50,7 +50,7 @@ def high_five():
     hand_servo.write(HAND_UP)
     def lower_hand():
         hand_servo.write(HAND_DOWN)
-    sch.enter(HI5_DELAY, 1, lower_hand, ())
+    sch.enter(HI_DELAY, 1, lower_hand, ())
 
 def run():
     readbuffer = ""
