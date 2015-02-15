@@ -84,6 +84,6 @@ def run():
                 if args[0] == "End":
                     s.send("JOIN #hackcooper\r\n")
                 elif args[0] == "!move":
-                    set_left_motor(True)
+                    set_left_motor(args[1] == "on")
 
 run()
