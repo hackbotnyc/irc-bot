@@ -5,7 +5,6 @@ import Queue
 import threading
 import urllib
 import urllib2
-import sched
 import time
 
 LEFT_MOTOR_PORT = 13
@@ -32,8 +31,6 @@ left_motor.dir(mraa.DIR_OUT)
 right_motor.dir(mraa.DIR_OUT)
 hand_servo.enable(True)
 
-sch = sched.scheduler(time.time, time.sleep)
-
 def set_left_motor(on):
     if on:
         left_motor.write(1)
@@ -48,11 +45,8 @@ def set_right_motor(on):
 
 def high_five():
     hand_servo.write(HAND_UP)
-    print "High-five up!"
-    def lower_hand():
-        hand_servo.write(HAND_DOWN)
-        print "High-five down!"
-    sch.enter(HI_DELAY, 1, lower_hand, ())
+    time.sleep(HI_DELAY)
+    hand_servo.write(HAND_DOWN)
 
 def run():
     readbuffer = ""
