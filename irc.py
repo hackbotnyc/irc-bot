@@ -34,6 +34,12 @@ def push_audio(left=0, right=0):
     left_audio_buffer.append(left)
     right_audio_buffer.append(right)
 
+def step_audio():
+    if len(left_audio_buffer) > 0:
+        left_audio.write(left_audio_buffer.pop(0))
+    if len(right_audio_buffer) > 0:
+        right_audio.write(right_audio_buffer.pop(0))
+
 def set_left_motor(on):
     if on:
         left_motor.write(1)
