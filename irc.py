@@ -6,14 +6,8 @@ import threading
 import urllib
 import urllib2
 
-LEFT_AUDIO_PORT = 5
-RIGHT_AUDIO_PORT = 6
-
 LEFT_MOTOR_PORT = 12
 RIGHT_MOTOR_PORT = 13
-
-left_audio = None
-right_audio = None
 
 left_motor = None
 right_motor = None
@@ -22,27 +16,8 @@ right_motor = None
 left_motor = mraa.Gpio(LEFT_MOTOR_PORT)
 right_motor = mraa.Gpio(RIGHT_MOTOR_PORT)
 
-left_audio = mraa.Pwm(LEFT_AUDIO_PORT)
-right_audio = mraa.Pwm(RIGHT_AUDIO_PORT)
-
-left_audio.enable(True)
-right_audio.enable(True)
-
 left_motor.dir(mraa.DIR_OUT)
 right_motor.dir(mraa.DIR_OUT)
-
-left_audio_buffer = []
-right_audio_buffer = []
-
-def push_audio(left=0, right=0):
-    left_audio_buffer.append(left)
-    right_audio_buffer.append(right)
-
-def step_audio():
-    if len(left_audio_buffer) > 0:
-        left_audio.write(left_audio_buffer.pop(0))
-    if len(right_audio_buffer) > 0:
-        right_audio.write(right_audio_buffer.pop(0))
 
 def set_left_motor(on):
     if on:
@@ -57,16 +32,6 @@ def set_right_motor(on):
         right_motor.write(0)
 
 def run():
-    q = Queue.Queue()
-
-    def reprun():
-        while True:
-            step_audio()
-
-    t = threading.Thread(target=reprun)
-    t.daemon = True
-    t.start()
-
     readbuffer = ""
 
     s = socket.socket()
@@ -75,8 +40,6 @@ def run():
     s.send("USER hackbot irc.esper.net bla :HackBot\r\n")
 
     while True:
-        step_audio()
-        print len(left_audio_buffer)
         readbuffer = readbuffer + s.recv(1024)
         temp = string.split(readbuffer, "\n")
         readbuffer = temp.pop()
@@ -99,17 +62,18 @@ def run():
                     s.send("JOIN #hackcooper\r\n")
                 elif args[0] == "!move":
                     set_left_motor(args[1] == "on")
-                elif args[0] == "!say":
-                    args.remove(args[0])
-                    headers = {'Authorization': 'Basic YjU1Y2VlYWYtZjc0ZS00YTJhLWFkMjYtZGUzMWI5MDA3ZGQwOlJiYk5SYWtZVDA2Qg=='}
-                    request = urllib2.Request("https://stream.watsonplatform.net/text-to-speech-beta/api/v1/synthesize?accept=audio%2Fwav&text=text", headers=headers)
-                    response = urllib2.urlopen(request)
-                    stuff = response.read()
-                    print "Pushing to audio buffer:"
-                    for c in stuff:
-                        i = ord(c) / 256.0
-                        push_audio(i, i)
-                    print "Done pushing to audio buffer!"
+                elif args[0] == "!forward":
+                    set_left_motor(True)
+                    set_right_motor(True)
+                elif args[0] == "!left":
+                    set_left_motor(False)
+                    set_right_motor(True)
+                elif args[0] == "!right":
+                    set_left_motor(True)
+                    set_right_motor(False)
+                elif args[0] == "!break":
+                    set_left_motor(False)
+                    set_right_motor(False)
 
 # reset both motors on startup
 set_left_motor(False)
