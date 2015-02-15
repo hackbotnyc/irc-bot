@@ -64,7 +64,7 @@ def run():
 
     while True:
         step_audio()
-        print len(audio_buffer)
+        print len(left_audio_buffer)
         readbuffer = readbuffer + s.recv(1024)
         temp = string.split(readbuffer, "\n")
         readbuffer = temp.pop()
