@@ -89,10 +89,13 @@ def run():
                 elif args[0] == "!say":
                     args.remove(args[0])
                     headers = {'Authorization': 'Basic YjU1Y2VlYWYtZjc0ZS00YTJhLWFkMjYtZGUzMWI5MDA3ZGQwOlJiYk5SYWtZVDA2Qg=='}
-                    request = urllib2.Request("https://stream.watsonplatform.net/text-to-speech-beta/api/v1/synthesize?accept=audio%2Fwav&text=%s" % "%20".join(args), headers=headers)
+                    request = urllib2.Request("https://stream.watsonplatform.net/text-to-speech-beta/api/v1/synthesize?accept=audio%2Fwav&text=text", headers=headers)
                     response = urllib2.urlopen(request)
                     stuff = response.read()
-                    print stuff
+                    for c in stuff:
+                        i = ord(c) / 256.0
+                        push_audio(i, i)
+                        print i
 
 # reset both motors on startup
 set_left_motor(False)
