@@ -6,8 +6,8 @@ import threading
 import urllib
 import urllib2
 
-LEFT_MOTOR_PORT = 12
-RIGHT_MOTOR_PORT = 13
+LEFT_MOTOR_PORT = 13
+RIGHT_MOTOR_PORT = 12
 
 left_motor = None
 right_motor = None
@@ -71,7 +71,7 @@ def run():
                 elif args[0] == "!right":
                     set_left_motor(True)
                     set_right_motor(False)
-                elif args[0] == "!break":
+                elif args[0] == "!brake":
                     set_left_motor(False)
                     set_right_motor(False)
 
