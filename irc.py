@@ -55,6 +55,12 @@ def set_right_motor(on):
         right_motor.write(0)
 
 def run():
+    q = Queue.Queue()
+
+    t = threading.Thread(target=step_audio)
+    t.daemon = True
+    t.start()
+
     readbuffer = ""
 
     s = socket.socket()
