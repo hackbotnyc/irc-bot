@@ -64,6 +64,7 @@ def run():
 
     while True:
         step_audio()
+        print len(audio_buffer)
         readbuffer = readbuffer + s.recv(1024)
         temp = string.split(readbuffer, "\n")
         readbuffer = temp.pop()
@@ -92,10 +93,11 @@ def run():
                     request = urllib2.Request("https://stream.watsonplatform.net/text-to-speech-beta/api/v1/synthesize?accept=audio%2Fwav&text=text", headers=headers)
                     response = urllib2.urlopen(request)
                     stuff = response.read()
+                    print "Pushing to audio buffer:"
                     for c in stuff:
                         i = ord(c) / 256.0
                         push_audio(i, i)
-                        print i
+                    print "Done pushing to audio buffer!"
 
 # reset both motors on startup
 set_left_motor(False)
