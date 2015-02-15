@@ -48,8 +48,10 @@ def set_right_motor(on):
 
 def high_five():
     hand_servo.write(HAND_UP)
+    print "High-five up!"
     def lower_hand():
         hand_servo.write(HAND_DOWN)
+        print "High-five down!"
     sch.enter(HI_DELAY, 1, lower_hand, ())
 
 def run():
@@ -96,6 +98,7 @@ def run():
                     set_left_motor(False)
                     set_right_motor(False)
                 elif args[0] == "!hi5":
+                    print "High-fiving"
                     high_five()
 
 # reset both motors on startup
