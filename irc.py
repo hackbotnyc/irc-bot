@@ -17,7 +17,7 @@ right_motor = None
 def init_ports():
     left_motor = mraa.Gpio(LEFT_MOTOR_PORT)
     right_motor = mraa.Gpio(RIGHT_MOTOR_PORT)
-    
+
     left_audio = mraa.Pwm(LEFT_AUDIO_PORT)
     right_audio = mraa.Pwm(RIGHT_AUDIO_PORT)
 
@@ -80,10 +80,10 @@ def run():
                 l.remove(l[0])
                 l[0] = l[0].replace(":", "")
                 args = l
-                
+
                 if args[0] == "End":
                     s.send("JOIN #hackcooper\r\n")
                 elif args[0] == "!move":
-                    print "OMG MOVE FORWARD"
+                    set_left_motor(True)
 
 run()
