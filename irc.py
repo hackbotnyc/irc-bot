@@ -53,7 +53,7 @@ def swagwalk():
     set_right_motor(True)
     for i in xrange(10):
         hand_servo.write(HAND_UP)
-        hand_servo.write(HAND_DOWN)
+        hand_servo.write(HAND_UP + .1)
     set_left_motor(False)
     set_right_motor(False)
 
