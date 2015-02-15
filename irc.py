@@ -5,19 +5,33 @@ import Queue
 import threading
 import urllib
 import urllib2
+import sched
 
 LEFT_MOTOR_PORT = 13
 RIGHT_MOTOR_PORT = 12
+HAND_PORT = 6
+
+HAND_UP = .15
+HAND_DOWN = .45
+
+# time to hold the hand up in seconds
+HI5_DELAY = 3
 
 left_motor = None
 right_motor = None
 
+hand_servo = None
+
 # init all the things
 left_motor = mraa.Gpio(LEFT_MOTOR_PORT)
 right_motor = mraa.Gpio(RIGHT_MOTOR_PORT)
+hand_servo = mraa.Pwm(HAND_PORT)
 
 left_motor.dir(mraa.DIR_OUT)
 right_motor.dir(mraa.DIR_OUT)
+hand_servo.enable(True)
+
+sch = sched.scheduler(time.time, time.sleep)
 
 def set_left_motor(on):
     if on:
@@ -30,6 +44,12 @@ def set_right_motor(on):
         right_motor.write(1)
     else:
         right_motor.write(0)
+
+def high_five():
+    hand_servo.write(HAND_UP)
+    def lower_hand():
+        hand_servo.write(HAND_DOWN)
+    sch.enter(HI5_DELAY, 1, lower_hand, ())
 
 def run():
     readbuffer = ""
@@ -74,6 +94,8 @@ def run():
                 elif args[0] == "!brake":
                     set_left_motor(False)
                     set_right_motor(False)
+                elif args[0] == "!hi5":
+                    high_five()
 
 # reset both motors on startup
 set_left_motor(False)
