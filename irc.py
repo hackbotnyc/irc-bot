@@ -6,6 +6,7 @@ import threading
 import urllib
 import urllib2
 import sched
+import time
 
 LEFT_MOTOR_PORT = 13
 RIGHT_MOTOR_PORT = 12
