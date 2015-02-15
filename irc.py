@@ -1,6 +1,8 @@
 import socket
 import string
 import mraa
+import Queue
+import threading
 import urllib
 import urllib2
 
@@ -57,7 +59,11 @@ def set_right_motor(on):
 def run():
     q = Queue.Queue()
 
-    t = threading.Thread(target=step_audio)
+    def reprun():
+        while True:
+            step_audio()
+
+    t = threading.Thread(target=reprun)
     t.daemon = True
     t.start()
 
