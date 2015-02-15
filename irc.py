@@ -48,6 +48,15 @@ def high_five():
     time.sleep(HI_DELAY)
     hand_servo.write(HAND_DOWN)
 
+def swagwalk():
+    set_left_motor(True)
+    set_right_motor(True)
+    for i in xrange(10):
+        hand_servo.write(HAND_UP)
+        hand_servo.write(HAND_DOWN)
+    set_left_motor(False)
+    set_right_motor(False)
+
 def run():
     readbuffer = ""
 
@@ -93,6 +102,8 @@ def run():
                     set_right_motor(False)
                 elif args[0] == "!hi5":
                     high_five()
+                elif args[0] == "!swagwalk":
+                    swagwalk()
 
 # reset both motors on startup
 set_left_motor(False)
