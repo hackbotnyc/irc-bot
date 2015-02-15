@@ -86,7 +86,7 @@ def run():
                 elif args[0] == "!move":
                     set_left_motor(args[1] == "on")
                 elif args[0] == "!say":
-                    args = args.remove(args[0])
+                    args.remove(args[0])
                     values = {'accept': 'audio%2Fwav', 'text': args.join(" ")}
                     headers = { 'Authorization': 'Basic YjU1Y2VlYWYtZjc0ZS00YTJhLWFkMjYtZGUzMWI5MDA3ZGQwOlJiYk5SYWtZVDA2Qg==' }
                     data = urllib.urlencode(values)
