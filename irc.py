@@ -92,7 +92,6 @@ def run():
                     set_left_motor(False)
                     set_right_motor(False)
                 elif args[0] == "!hi5":
-                    print "High-fiving"
                     high_five()
 
 # reset both motors on startup
