@@ -53,6 +53,7 @@ def set_right_motor(on):
         right_motor.write(0)
 
 def run():
+    init_ports()
     readbuffer = ""
 
     s = socket.socket()
@@ -61,6 +62,7 @@ def run():
     s.send("USER hackbot irc.esper.net bla :HackBot\r\n")
 
     while True:
+        step_audio()
         readbuffer = readbuffer + s.recv(1024)
         temp = string.split(readbuffer, "\n")
         readbuffer = temp.pop()
